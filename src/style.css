@@ -600,18 +600,22 @@ body {
     justify-content: center;
   }
   
- .btn-post { 
+  .btn-post { 
     cursor: pointer; 
-    width: 95px; 
-    height: 30px; 
+    width: 69px; 
+    height: 39px; 
     border: none; 
-    border-radius: 10px; 
-    color: whitesmoke; 
+    border-radius: 16px; 
     background: #AA4528; 
     margin-left: 7px; 
-    margin-top: 10px;
-    justify-content: center; 
+    justify-content: center;
+    outline: none;
   } 
+
+  .icon-post{
+    width: 30px;
+    justify-content: center;
+  }
   
   .timeline-item{
     border:solid 1px #292828;
