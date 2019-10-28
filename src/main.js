@@ -1,19 +1,28 @@
-import { Home } from "../pages/home.js";
-import { Cadastro } from "../pages/cadastro.js";
-import { PaginaInicial } from "../pages/paginainicial.js"
-import { Mural } from "../pages/mural.js"
-import { About } from "../pages/editarperfil.js"
+import { Home } from '../pages/home.js';
+import { Cadastro } from '../pages/cadastro.js';
+import { PaginaInicial } from '../pages/paginainicial.js'
+import { Mural } from '../pages/mural.js'
+import { About } from '../pages/editarperfil.js'
 import Button from '../components/button.js';
 import Post from '../components/post.js';
 import Input from '../components/input.js';
 
 function init() {
-	document.querySelector("main").innerHTML = Home();
+	document.querySelector('main').innerHTML = Home();
 }
 
 const cad = () => {
-	document.querySelector("main").innerHTML = Cadastro();
+	document.querySelector('main').innerHTML = Cadastro();
 }
+
+
+firebase.auth().onAuthStateChanged(function (user) {
+	if (user) {
+		window.location.hash = '#mural'
+	} else if (window.location.hash === '#home') {
+		// No user is signed in.
+	}
+})
 
 const mural = () => {
 	const user = firebase.auth().currentUser;
@@ -24,51 +33,51 @@ const mural = () => {
 		let postsLayout = '';
 		//usuario logado
 		snap.forEach(post => {
-	//		firebase.firestore().collection('posts/${post.id}/comments')
+			//		firebase.firestore().collection('posts/${post.id}/comments')
 			post.ref.collection('comments').get()
 				.then(commentSnap => {
 					const comments = [];
-					commentSnap.forEach( comment => {
+					commentSnap.forEach(comment => {
 						comments.push(comment.data());
 					});
-			if (post.data().userID === user.uid) {
-				postsLayout += `
+					if (post.data().userID === user.uid) {
+						postsLayout += `
 				<li class='timeline-item' data-id='${post.data().userID}'>
-					<p post-id='${post.id}' contenteditable="true" class="post">${post.data().text}</p>
-					<p>${post.data().date}</p>
-					<p>${post.data().name}</p>
+					<p post-id='${post.id}' contenteditable='true' class='post'>${post.data().text}</p>
+					<p class='date'>${post.data().date}</p>
+					<p class='user'>${post.data().name}</p>
 					${Button({ class: 'btn-delete', id: post.id, title: '<img src="images/botaodeletee.png" class="icon-delete" />', onclick: deletar })}
 					${Button({ class: 'btn-edit', id: post.id, title: '<img src="images/botaoeditar.png" class="icon-edit" />', onclick: editar })}
 					${Button({ class: 'btn-likes', id: post.id, title: '<img src="images/botaolike.png" class="icon-like"/>', onclick: like })}
 					<p like-id='${post.id}' class="like">${post.data().likes}</p>
 						${Input({ class: 'input-comment', dataId: post.id, placeholder: 'Comentários', type: 'text' })}
-						${Button({ class: 'btn-comment', id: post.id, title:'Comentar', onclick: commentarPost })}
-					<ul>
-						${comments.map(comment => `<li>${comment.text}</li>`).join("")}
+						${Button({ class: 'btn-comment', id: post.id, title: 'Comentar', onclick: commentarPost })}
+					<ul class='comments'>
+						${comments.map(comment => `<li class='comment'>${comment.text}</li>`).join("")}
 					</ul>
 				</li>
 				`;
-				//usuario não logado
-			} else {
-				postsLayout += `
+						//usuario não logado
+					} else {
+						postsLayout += `
 				<li class='timeline-item' data-id='${post.data().userID}'>
-					<p post-id='${post.id}'>${post.data().text}</p>
-					<p>${post.data().date}</p>
-					<p>${post.data().name}</p>
+					<p post-id='${post.id}' class='post'>${post.data().text}</p>
+					<p class='date'>${post.data().date}</p>
+					<p class='user'>${post.data().name}</p>
 					${Button({ class: 'btn-likes', id: post.id, title: '<img src="images/botaolike.png" class="icon-like"/>', onclick: like })}
-					<p like-id="${post.id}" class="like">${post.data().likes}</p>
+					<p like-id='${post.id}' class='like'>${post.data().likes}</p>
 					${Input({ class: 'input-comment', dataId: post.id, placeholder: 'Comentários', type: 'text' })}
 					${Button({ class: 'btn-comment', id: post.id, title: 'Comentar', onclick: commentarPost })}
 					
-					<ul>
-						${comments.map(comment => `<li>${comment.text}</li>`).join("")}
+					<ul class='comments'>
+						${comments.map(comment => `<li class='comment'>${comment.text}</li>`).join('')}
 					</ul>
 				</li>
 				`;
-			}
-					document.querySelector("main").innerHTML = Mural({ postsLayout });
-		
-				})	
+					}
+					document.querySelector('main').innerHTML = Mural({ postsLayout });
+
+				})
 		})
 	})
 }
@@ -103,48 +112,45 @@ const commentarPost = (id, event) => {
 	event.target.parentElement.innerHTML += `<p class='ja'>${input.value}</p>`
 }
 
-// const about = () => {
+const about = () => {
 
-// 	const template = `
-// 		<section class='texto'>
-// 			<h1 class='sobre-titulo'>Sobre</h1>
-// 			<p class='sobre-texto'>resumo do readme</p>
-// 		</section>
-// 		<section class='imagens-das-desenvolvedoras'>
-// 			<div class='dev'>
-// 				<img>
-// 				<p>Évora</p>
-// 			</div>
-// 			<div class='dev'>
-// 				<img>
-// 				<p>Jéssica</p>
-// 			</div>
-// 			<div class='dev'>
-// 				<img>
-// 				<p>Maria Carolina</p>
-// 			</div>
-// 		</section>
-// 	`;
+	const template = `
+		<section class='texto'>
+			<h1 class='sobre-titulo'>Sobre</h1>
+			<p class='sobre-texto'>Nesta aplicação web o usuário poderá interagir de forma criativa no clima de bruxaria. O projeto tem como objetivo integrar pessoas que compartilham da mesma ideia ou que estajam disponíveis a aprender novos feitiços ou curiosidades.</p>
+		</section>
+		<section class='imagens-das-desenvolvedoras'>
+			<div class='dev'>
+				<img class='imagem' src='../images/evora.png'>
+				<p class='nome'><a href='https://github.com/e-v-s' target='_blank'>Évora</a></p>
+			</div>
+			<div class='dev'>
+				<img class='imagem' src='../images/jessica.png'>
+				<p class='nome'><a href='https://github.com/jpbnascimento' target='_blank'>Jéssica</a></p>
+			</div>
+			<div class='dev'>
+				<img class='imagem' src='../images/maria.png'>
+				<p class='nome'><a href='https://github.com/jpbnascimento/' target='_blank'>Maria Carolina</a></p>
+			</div>
+		</section>
+	`;
 
-// 	document.querySelector("main").innerHTML = About({ template });
-// }
-
+	document.querySelector('main').innerHTML = About({ template });
+}
 
 const hash = () => {
-	if (location.hash === "#sign") {
+	if (location.hash === '#sign') {
 		return cad();
-	} else if (location.hash === "#mural") {
+	} else if (location.hash === '#mural') {
 		return mural();
-	} else if (location.hash === "#home") {
+	} else if (location.hash === '#home') {
 		return init();
-	}	else if (location.hash === "#editar") {
+	} else if (location.hash === '#editar') {
 		return about();
 	}
 }
-//mudança de hash #
-
 
 window.mural = mural;
 
-window.addEventListener("load", init);
-window.addEventListener("hashchange", hash, false);
+window.addEventListener('load', init);
+window.addEventListener('hashchange', hash, false);
