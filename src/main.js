@@ -103,31 +103,31 @@ const commentarPost = (id, event) => {
 	event.target.parentElement.innerHTML += `<p class='ja'>${input.value}</p>`
 }
 
-const about = () => {
+// const about = () => {
 
-	const template = `
-		<section class='texto'>
-			<h1 class='sobre-titulo'>Sobre</h1>
-			<p class='sobre-texto'>resumo do readme</p>
-		</section>
-		<section class='imagens-das-desenvolvedoras'>
-			<div class='dev'>
-				<img>
-				<p>Évora</p>
-			</div>
-			<div class='dev'>
-				<img>
-				<p>Jéssica</p>
-			</div>
-			<div class='dev'>
-				<img>
-				<p>Maria Carolina</p>
-			</div>
-		</section>
-	`;
+// 	const template = `
+// 		<section class='texto'>
+// 			<h1 class='sobre-titulo'>Sobre</h1>
+// 			<p class='sobre-texto'>resumo do readme</p>
+// 		</section>
+// 		<section class='imagens-das-desenvolvedoras'>
+// 			<div class='dev'>
+// 				<img>
+// 				<p>Évora</p>
+// 			</div>
+// 			<div class='dev'>
+// 				<img>
+// 				<p>Jéssica</p>
+// 			</div>
+// 			<div class='dev'>
+// 				<img>
+// 				<p>Maria Carolina</p>
+// 			</div>
+// 		</section>
+// 	`;
 
-	document.querySelector("main").innerHTML = About({ template });
-}
+// 	document.querySelector("main").innerHTML = About({ template });
+// }
 
 
 const hash = () => {

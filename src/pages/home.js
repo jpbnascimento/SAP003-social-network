@@ -5,7 +5,7 @@ const login = (id, event) => {
 	event.preventDefault();
 
 	const email = document.getElementById('email-login').value;
-
+	
 	const password = document.getElementById('pass-login').value;
 
 	firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
