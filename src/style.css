@@ -303,10 +303,6 @@ body {
   margin-top: 20px;
 }
 
-.date, .user {
-  border: 1px solid #737373;
-}
-
 .date {
   margin-top: 20px;
 }
@@ -403,10 +399,11 @@ body {
 
 .comment {
   margin: 20px 0;
-  border: 1px solid #737373;
+  border: 1px solid #282828;
   padding: 10px 0;
   text-align: left;
   width: 300px;
+  padding-left: 12px;
 }
 
 .icon-like, .icon-edit {
